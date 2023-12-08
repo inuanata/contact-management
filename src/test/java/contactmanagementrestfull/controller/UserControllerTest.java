@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import contactmanagementrestfull.model.RegisterUserRequest;
 import contactmanagementrestfull.model.WebResponse;
 import contactmanagementrestfull.repository.UserRepository;
+import contactmanagementrestfull.entity.User;
+import contactmanagementrestfull.security.BCrypt;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,7 +70,35 @@ public class UserControllerTest {
     request.setName("");
 
     mockMvc.perform(
-      post("/api/users")
+      post("/api/register")
+        .accept(MediaType.APPLICATION_JSON)
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(request))
+    ).andExpectAll(
+      status().isBadRequest()
+    ).andDo(result -> {
+      WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+      });
+
+      assertNotNull(response.getErrors());
+    });
+  }
+
+  @Test
+  void testRegisterDuplicate() throws Exception {
+    User user = new User();
+    user.setUsername("test");
+    user.setPassword(BCrypt.hashpw("test", BCrypt.gensalt()));
+    user.setName("Test");
+    userRepository.save(user);
+
+    RegisterUserRequest request = new RegisterUserRequest();
+    request.setUsername("test");
+    request.setPassword("test");
+    request.setName("test");
+
+    mockMvc.perform(
+      post("/api/register")
         .accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON)
         .content(objectMapper.writeValueAsString(request))
