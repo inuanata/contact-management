@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import contactmanagementrestfull.entity.User;
 import contactmanagementrestfull.model.RegisterUserRequest;
+import contactmanagementrestfull.model.UserResponse;
 import contactmanagementrestfull.repository.UserRepository;
 import contactmanagementrestfull.security.BCrypt;
 import jakarta.validation.Validator;
@@ -38,5 +39,12 @@ public class UserService {
     user.setName(request.getName());
 
     userRepository.save(user);
+  }
+
+  public UserResponse get(User user) {
+    return UserResponse.builder()
+      .username(user.getUsername())
+      .name(user.getName())
+      .build();
   }
 }
