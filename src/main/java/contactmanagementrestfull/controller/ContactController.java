@@ -26,14 +26,14 @@ public class ContactController {
     return WebResponse.<ContactResponse>builder().data(contactResponse).build();
   }
 
-    // @GetMapping(
-    //         path = "/api/contacts/{contactId}",
-    //         produces = MediaType.APPLICATION_JSON_VALUE
-    // )
-    // public WebResponse<ContactResponse> get(User user, @PathVariable("contactId") String contactId) {
-    //     ContactResponse contactResponse = contactService.get(user, contactId);
-    //     return WebResponse.<ContactResponse>builder().data(contactResponse).build();
-    // }
+    @GetMapping(
+            path = "/api/contacts/{contactId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<ContactResponse> get(User user, @PathVariable("contactId") String contactId) {
+        ContactResponse contactResponse = contactService.get(user, contactId);
+        return WebResponse.<ContactResponse>builder().data(contactResponse).build();
+    }
 
     // @PutMapping(
     //         path = "/api/contacts/{contactId}",
