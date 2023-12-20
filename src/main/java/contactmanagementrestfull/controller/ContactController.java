@@ -35,20 +35,20 @@ public class ContactController {
         return WebResponse.<ContactResponse>builder().data(contactResponse).build();
     }
 
-    // @PutMapping(
-    //         path = "/api/contacts/{contactId}",
-    //         consumes = MediaType.APPLICATION_JSON_VALUE,
-    //         produces = MediaType.APPLICATION_JSON_VALUE
-    // )
-    // public WebResponse<ContactResponse> update(User user,
-    //                                            @RequestBody UpdateContactRequest request,
-    //                                            @PathVariable("contactId") String contactId) {
+    @PutMapping(
+            path = "/api/contacts/{contactId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<ContactResponse> update(User user,
+                                               @RequestBody UpdateContactRequest request,
+                                               @PathVariable("contactId") String contactId) {
 
-    //     request.setId(contactId);
+        request.setId(contactId);
 
-    //     ContactResponse contactResponse = contactService.update(user, request);
-    //     return WebResponse.<ContactResponse>builder().data(contactResponse).build();
-    // }
+        ContactResponse contactResponse = contactService.update(user, request);
+        return WebResponse.<ContactResponse>builder().data(contactResponse).build();
+    }
 
     // @DeleteMapping(
     //         path = "/api/contacts/{contactId}",
